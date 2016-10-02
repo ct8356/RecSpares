@@ -1,0 +1,144 @@
+﻿<Window x:Class="RecSpares.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RecSpares"
+        mc:Ignorable="d"
+        Title="Recommended Spares" Height="350" Width="525">
+    <Window.DataContext>
+        <local:MainVM/>
+    </Window.DataContext>
+    <DockPanel>
+
+        <TabControl TabStripPlacement="Top" Margin="0, 0, 0, 10">
+            <TabItem Name="MasterTab" Header="Master parts-list">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Button Margin="3" Width="120" Click="AddToMasterPartsList_Click">Check for new parts</Button>
+                    </StackPanel>
+                    <local:DataGrid x:Name="BaseGrid" IsReadOnly="True" ItemsSource="{Binding}" 
+                                      DockPanel.Dock="Top">
+                    </local:DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Name="AllJobsTab" Header="All jobs parts-list">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Button Margin="3" Width="120" Click="UpdateSpares_Click">Recommend spares</Button>
+                    </StackPanel>
+                    <local:DataGrid x:Name="AllJobsGrid" IsReadOnly="True" ItemsSource="{Binding}" 
+                                      DockPanel.Dock="Top">
+                    </local:DataGrid>
+                </DockPanel>
+            </TabItem>
+            
+            <TabItem Name="JobTab" Header="Job parts-list">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Label Margin="3">Level of need:</Label>
+                        <ComboBox Margin="3" SelectedItem="{Binding LevelOfNeed}" ItemsSource="{Binding LevelsOfNeed}"></ComboBox>
+                        <Button Margin="3" Width="120" Click="AddColumnAndFill_Click">Recommend spares</Button>
+                    </StackPanel>
+                    <local:DataGrid x:Name="IOGrid" IsReadOnly="True"
+                              ItemsSource="{Binding}" DockPanel.Dock="Top">
+                    </local:DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Name="PartTypeTab" Header="Part types">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Button Margin="3" Width="140" Click="UpdatePartTypes_Click">Check for new part types</Button>
+                    </StackPanel>
+                    <local:DataGrid x:Name="PartTypeGrid" IsReadOnly="True" ItemsSource="{Binding}" 
+                                      DockPanel.Dock="Top">
+                    </local:DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Name="MasterTranslationsTab" Header="Master translations">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Button Margin="3" Width="140" >Do something</Button>
+                    </StackPanel>
+                    <local:DataGrid x:Name="MasterTranslationsGrid" IsReadOnly="True" ItemsSource="{Binding}" 
+                                      DockPanel.Dock="Top">
+                    </local:DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Name="EPLANTranslationsTab" Header="EPLAN translations">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Button Margin="3" Width="140" 
+                                Click="TranslateEPLAN_Click">Translate EPLAN</Button>
+                    </StackPanel>
+                    <local:DataGrid x:Name="EPLANTranslationsGrid" IsReadOnly="True" ItemsSource="{Binding}" 
+                                      DockPanel.Dock="Top">
+                    </local:DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Name="TIATranslationsTab" Header="TIA translations">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Button Margin="3" Width="140" 
+                                Click="TranslateTIA_Click">Translate TIA</Button>
+                    </StackPanel>
+                    <local:DataGrid x:Name="TIATranslationsGrid" IsReadOnly="True" ItemsSource="{Binding}" 
+                                      DockPanel.Dock="Top">
+                    </local:DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Name="AdditionalTranslationsTab" Header="Additional translations">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Button Margin="3" Width="140" >Do something</Button>
+                    </StackPanel>
+                    <local:DataGrid x:Name="AdditionalTranslationsGrid" IsReadOnly="True" ItemsSource="{Binding}" 
+                                      DockPanel.Dock="Top">
+                    </local:DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Name="TestTab" Header="Test tab">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <TextBox Margin="3" Text="{Binding CommandText}"></TextBox>
+                        <Button Margin="3" Width="120" Click="TestQuery_Click">Test query</Button>
+                    </StackPanel>
+                    <local:DataGrid x:Name="TestGrid" IsReadOnly="True" ItemsSource="{Binding}" 
+                                      DockPanel.Dock="Top">
+                    </local:DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Name="tab5" Header="Settings">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="28" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Job parts-list filepath:"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding JobFilePath}" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="Master parts-list filepath:"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding MasterFilePath}" />
+                    <Label Grid.Row="2" Grid.Column="0" Content="All jobs parts-list filepath:"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding AllJobsFilePath}" />
+                    <Button Grid.Row="3"  Grid.Column="1" Width="60" Content="Save" Click="Save_Click"></Button>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+    </DockPanel>
+</Window>
